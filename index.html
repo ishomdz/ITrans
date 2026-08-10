@@ -1,1 +1,467 @@
-ittrans
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Sewa mobil mudah, nyaman, dan terpercaya. Pilihan armada lengkap dengan harga transparan." />
+<title>DriveRent — Sewa Mobil, Tinggal Gas</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#12151A;
+    --ink-2:#1B2027;
+    --ink-3:#232932;
+    --paper:#F3F1EA;
+    --paper-2:#EAE7DC;
+    --amber:#FFB020;
+    --amber-deep:#E8930A;
+    --mist:#8A93A3;
+    --offwhite:#F5F4F0;
+  }
+
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--offwhite);
+    font-family:'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  }
+  .font-display{font-family:'Big Shoulders Display', sans-serif;}
+  .font-mono{font-family:'JetBrains Mono', ui-monospace, monospace;}
+
+  :focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  /* --- road-dash divider --- */
+  .road-dash{
+    stroke-dasharray: 14 14;
+    animation: dash-move 3.4s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .road-dash{animation:none;}
+  }
+  @keyframes dash-move{
+    to{ stroke-dashoffset:-56; }
+  }
+
+  /* --- car photo entrance --- */
+  .car-shot{
+    animation: car-in 1s cubic-bezier(.2,.8,.2,1) both;
+  }
+  @keyframes car-in{
+    from{ opacity:0; transform: scale(1.06) translateY(6px); }
+    to{ opacity:1; transform: scale(1) translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .car-shot{ animation:none; }
+  }
+
+  /* --- odometer readout --- */
+  .odometer{
+    background: #0B0D10;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.04);
+  }
+  .odometer-digits{
+    color: var(--amber);
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 10px rgba(255,176,32,.35);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* fade-up entrance */
+  .rise{
+    animation: rise-in .7s ease both;
+  }
+  @keyframes rise-in{
+    from{ opacity:0; transform: translateY(14px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .rise{ animation:none; }
+  }
+
+  .plate-badge{
+    background: var(--ink);
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .plate-badge::before{
+    content:"";
+    width:4px;
+    align-self:stretch;
+    background: var(--amber);
+    border-radius: 2px;
+  }
+
+  summary::-webkit-details-marker{ display:none; }
+  details[open] .chev{ transform: rotate(45deg); }
+
+  #mobile-menu{ transition: max-height .3s ease, opacity .3s ease; }
+</style>
+</head>
+
+<body class="antialiased">
+
+<!-- ===== Navbar ===== -->
+<header class="fixed inset-x-0 top-0 z-50 border-b border-white/[.06] bg-[var(--ink)]/90 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
+    <a href="#" class="flex items-center gap-2.5">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <circle cx="15" cy="15" r="13.5" stroke="var(--amber)" stroke-width="1.6"/>
+        <line x1="15" y1="15" x2="20.5" y2="9.5" stroke="var(--amber)" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="15" cy="15" r="1.8" fill="var(--amber)"/>
+      </svg>
+      <span class="font-display text-xl font-extrabold uppercase tracking-wide text-[var(--offwhite)]">ITrans</span>
+    </a>
+
+    <nav class="hidden items-center gap-8 text-sm font-medium text-[var(--mist)] md:flex">
+      <a href="#armada" class="transition hover:text-[var(--offwhite)]">Armada</a>
+      <a href="#harga" class="transition hover:text-[var(--offwhite)]">Harga</a>
+      <a href="#keunggulan" class="transition hover:text-[var(--offwhite)]">Keunggulan</a>
+      <a href="#faq" class="transition hover:text-[var(--offwhite)]">FAQ</a>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a
+        href="https://wa.me/6289647538604?text=Halo%20DriveRent%2C%20saya%20ingin%20menyewa%20mobil."
+        target="_blank" rel="noopener"
+        class="hidden rounded-full bg-[var(--amber)] px-5 py-2.5 text-sm font-bold text-[var(--ink)] transition hover:bg-[var(--amber-deep)] sm:inline-block"
+      >
+        Hubungi Kami
+      </a>
+      <button id="menu-btn" aria-label="Buka menu" aria-expanded="false" class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-[var(--offwhite)] md:hidden">
+        <svg width="18" height="14" viewBox="0 0 18 14" fill="none"><path d="M0 1H18M0 7H18M0 13H18" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="max-h-0 overflow-hidden opacity-0 md:hidden">
+    <nav class="flex flex-col gap-1 border-t border-white/[.06] px-5 py-4 text-sm font-medium text-[var(--mist)]">
+      <a href="#armada" class="rounded-lg px-2 py-2.5 hover:bg-white/5 hover:text-[var(--offwhite)]">Armada</a>
+      <a href="#harga" class="rounded-lg px-2 py-2.5 hover:bg-white/5 hover:text-[var(--offwhite)]">Harga</a>
+      <a href="#keunggulan" class="rounded-lg px-2 py-2.5 hover:bg-white/5 hover:text-[var(--offwhite)]">Keunggulan</a>
+      <a href="#faq" class="rounded-lg px-2 py-2.5 hover:bg-white/5 hover:text-[var(--offwhite)]">FAQ</a>
+      <a href="https://wa.me/6289647538604?text=Halo%20DriveRent%2C%20saya%20ingin%20menyewa%20mobil." target="_blank" rel="noopener" class="mt-2 rounded-full bg-[var(--amber)] px-4 py-2.5 text-center font-bold text-[var(--ink)]">Hubungi Kami</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ===== Hero ===== -->
+  <section class="relative overflow-hidden pt-28 lg:pt-32">
+    <div class="pointer-events-none absolute inset-0 opacity-[.08]"
+         style="background-image:radial-gradient(circle at 1px 1px, #fff 1px, transparent 0); background-size:26px 26px;"></div>
+
+    <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-14 lg:grid-cols-[1.1fr_.9fr] lg:px-8 lg:py-20">
+      <!-- Copy -->
+      <div class="rise">
+
+        <h1 class="font-display max-w-xl text-6xl font-extrabold uppercase leading-[0.95] tracking-tight text-[var(--offwhite)] sm:text-7xl">
+          Sewa mobil,<br>
+          <span class="text-[var(--amber)]">plus driver.</span>
+        </h1>
+
+        <p class="mt-6 max-w-md text-base leading-7 text-[var(--mist)]">
+          Pilih mobil, kirim WhatsApp, langsung berangkat. Semua unit dicek rutin dan harganya jelas dari awal — tanpa biaya tersembunyi.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="https://wa.me/6289647538604?text=Halo%20DriveRent%2C%20saya%20ingin%20booking%20mobil." target="_blank" rel="noopener"
+             class="inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--amber)] px-6 py-3.5 font-bold text-[var(--ink)] shadow-lg shadow-[var(--amber)]/10 transition hover:-translate-y-0.5 hover:bg-[var(--amber-deep)]">
+            Booking via WhatsApp <span>→</span>
+          </a>
+          <a href="#harga"
+             class="inline-flex items-center justify-center rounded-xl border border-white/15 px-6 py-3.5 font-semibold text-[var(--offwhite)] transition hover:border-white/30 hover:bg-white/5">
+            Cek Daftar Harga
+          </a>
+        </div>
+
+        <ul class="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-sm text-[var(--mist)]">
+          <li class="flex items-center gap-2"><span class="text-[var(--amber)]">✓</span> Armada dicek tiap minggu</li>
+          <li class="flex items-center gap-2"><span class="text-[var(--amber)]">✓</span> Harga tanpa biaya tambahan</li>
+          <li class="flex items-center gap-2"><span class="text-[var(--amber)]">✓</span> Balasan WhatsApp cepat</li>
+        </ul>
+      </div>
+
+      <!-- Dashboard panel -->
+      <div class="rise" style="animation-delay:.1s">
+        <div class="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[var(--ink-2)] p-7 shadow-2xl">
+          <div class="flex items-center justify-between">
+            <p class="font-mono text-xs uppercase tracking-widest text-[var(--mist)]">Status Armada</p>
+            <span class="rounded-full bg-[var(--amber)]/10 px-3 py-1 text-xs font-bold text-[var(--amber)]">● Tersedia</span>
+          </div>
+
+          <div class="car-shot relative mt-5 overflow-hidden rounded-xl">
+            <img
+              src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
+              alt="Mobil DriveRent siap disewa"
+              class="h-44 w-full object-cover sm:h-52"
+            />
+            <div class="pointer-events-none absolute inset-0" style="background:linear-gradient(to top, var(--ink-2) 2%, transparent 55%);"></div>
+          </div>
+
+          <div class="odometer mt-4 rounded-xl px-5 py-4">
+            <p class="font-mono text-[10px] uppercase tracking-widest text-[var(--mist)]">Mulai dari</p>
+            <p class="odometer-digits font-mono mt-1 text-3xl font-bold">Rp 350.000<span class="text-base font-medium text-[var(--mist)]"> /hari</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- road divider -->
+    <svg class="relative block w-full" height="18" viewBox="0 0 1200 18" preserveAspectRatio="none" aria-hidden="true">
+      <line x1="0" y1="9" x2="1200" y2="9" stroke="var(--ink-3)" stroke-width="2" class="road-dash"/>
+    </svg>
+  </section>
+
+  <!-- ===== Keunggulan ===== -->
+  <section id="keunggulan" class="bg-[var(--ink)]">
+    <div class="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--amber)]">Kenapa DriveRent</p>
+        <h2 class="font-display mt-3 text-4xl font-extrabold uppercase tracking-tight text-[var(--offwhite)] sm:text-5xl">Sewa tanpa ribet.</h2>
+      </div>
+
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-2xl border border-white/10 bg-[var(--ink-2)] p-6 transition hover:border-[var(--amber)]/40">
+          <div class="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-[var(--amber)]/10">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 15L4 6h12l2 9M2 15h16M2 15v2M18 15v2M5 9h10" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="15" r="1.3" fill="var(--amber)"/><circle cx="14" cy="15" r="1.3" fill="var(--amber)"/></svg>
+          </div>
+          <h3 class="font-semibold text-[var(--offwhite)]">Armada Terawat</h3>
+          <p class="mt-2 text-sm leading-6 text-[var(--mist)]">Mobil dicek dan dirawat berkala sebelum dilepas ke jalan.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-[var(--ink-2)] p-6 transition hover:border-[var(--amber)]/40">
+          <div class="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-[var(--amber)]/10">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M14 5.5c0-1.4-1.8-2.5-4-2.5s-4 1.1-4 2.5c0 3 8 1.5 8 4.5 0 1.4-1.8 2.5-4 2.5s-4-1.1-4-2.5" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="font-semibold text-[var(--offwhite)]">Harga di Depan</h3>
+          <p class="mt-2 text-sm leading-6 text-[var(--mist)]">Tarif ditampilkan jelas sejak awal, tanpa biaya kejutan.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-[var(--ink-2)] p-6 transition hover:border-[var(--amber)]/40">
+          <div class="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-[var(--amber)]/10">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3h9l3 3v11a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="var(--amber)" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 9h5M6.5 12h7" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="font-semibold text-[var(--offwhite)]">Booking Lewat Chat</h3>
+          <p class="mt-2 text-sm leading-6 text-[var(--mist)]">Tanya ketersediaan dan booking langsung lewat WhatsApp.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-[var(--ink-2)] p-6 transition hover:border-[var(--amber)]/40">
+          <div class="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-[var(--amber)]/10">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l6 2.5v5c0 4.5-2.6 7.2-6 8.5-3.4-1.3-6-4-6-8.5v-5L10 2z" stroke="var(--amber)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="font-semibold text-[var(--offwhite)]">Dalam & Luar Kota</h3>
+          <p class="mt-2 text-sm leading-6 text-[var(--mist)]">Siap untuk perjalanan harian maupun perjalanan jauh.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Armada ===== -->
+  <section id="armada" class="bg-[var(--paper)] text-[var(--ink)]">
+    <div class="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-20">
+      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div>
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--amber-deep)]">Pilihan Armada</p>
+          <h2 class="font-display mt-3 text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">Untuk tiap kebutuhan.</h2>
+        </div>
+        <p class="max-w-md text-sm leading-6 text-[var(--ink)]/60">Pilih kendaraan sesuai jumlah penumpang dan tujuan perjalanan Anda.</p>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        <div class="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
+          <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=900&q=80" alt="Toyota Avanza" class="h-52 w-full object-cover">
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">Toyota Avanza</h3>
+            <div class="mt-3 flex items-center justify-between">
+              <span class="plate-badge flex items-center gap-2 rounded-lg px-3 py-1.5 font-mono text-xs font-semibold text-white">7 KURSI</span>
+              <p class="font-mono font-bold">Rp350K<span class="text-xs font-normal text-[var(--ink)]/50">/hari</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
+          <img src="https://images.unsplash.com/photo-1551830820-330a71b99659?auto=format&fit=crop&w=900&q=80" alt="Toyota Innova Reborn" class="h-52 w-full object-cover">
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">Innova Reborn</h3>
+            <div class="mt-3 flex items-center justify-between">
+              <span class="plate-badge flex items-center gap-2 rounded-lg px-3 py-1.5 font-mono text-xs font-semibold text-white">7 KURSI</span>
+              <p class="font-mono font-bold">Rp650K<span class="text-xs font-normal text-[var(--ink)]/50">/hari</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
+          <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=900&q=80" alt="Toyota Hiace" class="h-52 w-full object-cover">
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">Toyota Hiace</h3>
+            <div class="mt-3 flex items-center justify-between">
+              <span class="plate-badge flex items-center gap-2 rounded-lg px-3 py-1.5 font-mono text-xs font-semibold text-white">15 KURSI</span>
+              <p class="font-mono font-bold">Rp1.2JT<span class="text-xs font-normal text-[var(--ink)]/50">/hari</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Harga ===== -->
+  <section id="harga" class="bg-[var(--ink)]">
+    <div class="mx-auto max-w-6xl px-5 py-16 lg:px-8 lg:py-20">
+      <div class="text-center">
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--amber)]">Daftar Harga</p>
+        <h2 class="font-display mt-3 text-4xl font-extrabold uppercase tracking-tight text-[var(--offwhite)] sm:text-5xl">Harga sewa per hari</h2>
+        <p class="mx-auto mt-4 max-w-xl text-[var(--mist)]">Menyesuaikan durasi, area penggunaan, dan jenis layanan yang Anda pilih.</p>
+      </div>
+
+      <div class="mx-auto mt-10 overflow-hidden rounded-2xl border border-white/10">
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[680px] text-left">
+            <thead class="bg-[var(--ink-2)] font-mono text-xs uppercase tracking-widest text-[var(--mist)]">
+              <tr>
+                <th class="px-6 py-4 font-semibold">Armada</th>
+                <th class="px-6 py-4 font-semibold">Kapasitas</th>
+                <th class="px-6 py-4 font-semibold">Lepas Kunci</th>
+                <th class="px-6 py-4 font-semibold">Dengan Driver</th>
+                <th class="px-6 py-4"></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[.06] text-sm text-[var(--offwhite)]">
+              <tr>
+                <td class="px-6 py-5 font-semibold">Toyota Avanza</td>
+                <td class="px-6 py-5 text-[var(--mist)]">7 orang</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp350.000</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp550.000</td>
+                <td class="px-6 py-5"><a href="https://wa.me/6289647538604?text=Halo%2C%20saya%20ingin%20booking%20Toyota%20Avanza." target="_blank" rel="noopener" class="font-semibold text-[var(--offwhite)] hover:text-[var(--amber)]">Booking →</a></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5 font-semibold">Daihatsu Xenia</td>
+                <td class="px-6 py-5 text-[var(--mist)]">7 orang</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp350.000</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp550.000</td>
+                <td class="px-6 py-5"><a href="https://wa.me/6289647538604?text=Halo%2C%20saya%20ingin%20booking%20Daihatsu%20Xenia." target="_blank" rel="noopener" class="font-semibold text-[var(--offwhite)] hover:text-[var(--amber)]">Booking →</a></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5 font-semibold">Toyota Innova</td>
+                <td class="px-6 py-5 text-[var(--mist)]">7 orang</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp500.000</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp700.000</td>
+                <td class="px-6 py-5"><a href="https://wa.me/6289647538604?text=Halo%2C%20saya%20ingin%20booking%20Toyota%20Innova." target="_blank" rel="noopener" class="font-semibold text-[var(--offwhite)] hover:text-[var(--amber)]">Booking →</a></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5 font-semibold">Innova Reborn</td>
+                <td class="px-6 py-5 text-[var(--mist)]">7 orang</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp650.000</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp850.000</td>
+                <td class="px-6 py-5"><a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20booking%20Innova%20Reborn." target="_blank" rel="noopener" class="font-semibold text-[var(--offwhite)] hover:text-[var(--amber)]">Booking →</a></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5 font-semibold">Toyota Hiace</td>
+                <td class="px-6 py-5 text-[var(--mist)]">15 orang</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp1.200.000</td>
+                <td class="px-6 py-5 font-mono text-[var(--amber)]">Rp1.500.000</td>
+                <td class="px-6 py-5"><a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20booking%20Toyota%20Hiace." target="_blank" rel="noopener" class="font-semibold text-[var(--offwhite)] hover:text-[var(--amber)]">Booking →</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="mt-4 text-center text-xs text-[var(--mist)]">* Harga contoh. Sesuaikan dengan tarif bisnis Anda.</p>
+    </div>
+
+    <svg class="block w-full" height="18" viewBox="0 0 1200 18" preserveAspectRatio="none" aria-hidden="true">
+      <line x1="0" y1="9" x2="1200" y2="9" stroke="var(--ink-3)" stroke-width="2" class="road-dash"/>
+    </svg>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="bg-[var(--amber)] px-5 py-16 text-[var(--ink)] lg:px-8 lg:py-20">
+    <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+      <div class="max-w-2xl">
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--ink)]/70">Siap berangkat?</p>
+        <h2 class="font-display mt-3 text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">Booking mobil Anda, mulai sekarang.</h2>
+        <p class="mt-4 leading-7 text-[var(--ink)]/70">Chat kami di WhatsApp untuk cek ketersediaan armada dan info lengkap.</p>
+      </div>
+      <a href="https://wa.me/6281234567890?text=Halo%20DriveRent%2C%20saya%20ingin%20menanyakan%20ketersediaan%20mobil." target="_blank" rel="noopener"
+         class="shrink-0 rounded-xl bg-[var(--ink)] px-7 py-3.5 font-bold text-[var(--offwhite)] transition hover:-translate-y-0.5 hover:bg-[var(--ink-2)]">
+        Chat WhatsApp →
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section id="faq" class="bg-[var(--ink)]">
+    <div class="mx-auto max-w-3xl px-5 py-16 lg:px-8 lg:py-20">
+      <div class="text-center">
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--amber)]">FAQ</p>
+        <h2 class="font-display mt-3 text-4xl font-extrabold uppercase tracking-tight text-[var(--offwhite)]">Pertanyaan yang sering ditanyakan</h2>
+      </div>
+
+      <div class="mt-10 space-y-3">
+        <details class="group rounded-2xl border border-white/10 bg-[var(--ink-2)] p-5">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-[var(--offwhite)]">
+            Apakah tersedia sewa lepas kunci?
+            <span class="chev grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/5 text-[var(--amber)] transition">+</span>
+          </summary>
+          <p class="mt-3 text-sm leading-6 text-[var(--mist)]">Ya, sebagian armada tersedia untuk sewa lepas kunci dengan syarat dan ketentuan yang berlaku.</p>
+        </details>
+
+        <details class="group rounded-2xl border border-white/10 bg-[var(--ink-2)] p-5">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-[var(--offwhite)]">
+            Apakah bisa sewa dengan driver?
+            <span class="chev grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/5 text-[var(--amber)] transition">+</span>
+          </summary>
+          <p class="mt-3 text-sm leading-6 text-[var(--mist)]">Bisa. Kami menyediakan sewa mobil dengan driver untuk perjalanan dalam maupun luar kota.</p>
+        </details>
+
+        <details class="group rounded-2xl border border-white/10 bg-[var(--ink-2)] p-5">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-[var(--offwhite)]">
+            Bagaimana cara booking?
+            <span class="chev grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/5 text-[var(--amber)] transition">+</span>
+          </summary>
+          <p class="mt-3 text-sm leading-6 text-[var(--mist)]">Klik tombol WhatsApp, kirim tanggal penggunaan, pilihan mobil, dan jenis layanan yang Anda inginkan.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="border-t border-white/[.06] bg-[var(--ink)]">
+  <div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-[var(--mist)] sm:flex-row sm:items-center sm:justify-between lg:px-8">
+    <div>
+      <p class="font-display text-lg font-extrabold uppercase tracking-wide text-[var(--offwhite)]">DriveRent</p>
+      <p class="mt-1">Sewa mobil yang jelas dari awal — armada terawat, harga pasti, booking cepat.</p>
+    </div>
+    <p>© 2026 DriveRent. Semua hak dilindungi.</p>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a href="https://wa.me/6281234567890?text=Halo%20DriveRent%2C%20saya%20ingin%20menyewa%20mobil." target="_blank" rel="noopener" aria-label="Chat WhatsApp"
+   class="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-2xl text-white shadow-xl shadow-emerald-500/30 ring-2 ring-[var(--amber)]/0 transition hover:scale-105 hover:bg-emerald-600 hover:ring-[var(--amber)]/50">
+  ☎
+</a>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn.addEventListener('click', () => {
+    const open = menu.style.maxHeight && menu.style.maxHeight !== '0px';
+    menu.style.maxHeight = open ? '0px' : menu.scrollHeight + 'px';
+    menu.style.opacity = open ? '0' : '1';
+    btn.setAttribute('aria-expanded', String(!open));
+  });
+  document.querySelectorAll('#mobile-menu a').forEach(a => a.addEventListener('click', () => {
+    menu.style.maxHeight = '0px';
+    menu.style.opacity = '0';
+    btn.setAttribute('aria-expanded', 'false');
+  }));
+</script>
+
+</body>
+</html>
